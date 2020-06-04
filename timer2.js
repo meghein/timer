@@ -12,8 +12,10 @@ const stdin = process.stdin;
 stdin.setRawMode(true);
 stdin.setEncoding('utf8');
 
-stdin.on('b', (key) => {
-  process.stdout.write('ALARM');
+stdin.on('data', (key) => {
+  if (key === 'b') {
+  process.stdout.write('\rALARM');
+  }
   if (key === '\u0003') {
     console.log('Thanks for using me, ciao!');
     process.exit();
@@ -32,10 +34,10 @@ const timerFunction = () => {
     } else {
       console.log(`setting timer for ${number} seconds...`)
       setTimeout(() => {
-        process.stdout.write('\nALARM\n (press enter to set another alarm or press ctrl + c to exit\n');
+        process.stdout.write('\nALARM\n (press enter to set another alarm or press ctrl + c to exit)\n');
+        timerFunction();
       }, number * 1000);
     }
-    timerFunction();
   });
 };
 
